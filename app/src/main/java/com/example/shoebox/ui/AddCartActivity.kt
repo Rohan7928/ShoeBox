@@ -67,6 +67,7 @@ class AddCartActivity : AppCompatActivity(), OnCartItemClick {
                             ).document(dataModel.name!!).delete()
                                 .addOnSuccessListener {
                                     progressBar?.visibility = View.GONE
+                                    finish()
                                     startActivity(
                                         Intent(
                                             applicationContext,

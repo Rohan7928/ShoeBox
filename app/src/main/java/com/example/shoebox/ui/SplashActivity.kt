@@ -20,10 +20,12 @@ class SplashActivity : AppCompatActivity() {
             {
                 auth = FirebaseAuth.getInstance()
                 if (auth!!.currentUser != null) {
+                    finish()
                     // User is signed in (getCurrentUser() will be null if not signed in)
                     val intent = Intent(this@SplashActivity, DashBoardActivity::class.java)
                     startActivity(intent)
                 } else {
+                    finish()
                     val intent = Intent(this@SplashActivity, LoginActivity::class.java)
                     startActivity(intent)
                 }

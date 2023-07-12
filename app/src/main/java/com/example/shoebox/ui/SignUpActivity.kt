@@ -149,6 +149,7 @@ class SignUpActivity : AppCompatActivity() {
         val userModel = UserModel(name=name, email=email, password=password, mobile = mobile)
 
         dbCourses?.set(userModel)?.addOnSuccessListener {
+            finish()
             startActivity(Intent(applicationContext, LoginActivity::class.java))
         }?.addOnFailureListener { e ->
             Toast.makeText(applicationContext, "Fail to add course \n$e", Toast.LENGTH_SHORT).show()

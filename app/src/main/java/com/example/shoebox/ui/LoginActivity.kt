@@ -72,6 +72,7 @@ class LoginActivity : AppCompatActivity() {
         val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
         // Check condition
         if (firebaseUser != null) {
+            finish()
             // When user already sign in redirect to profile activity
             startActivity(
                 Intent(
@@ -143,7 +144,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             private fun checkIfEmailVerified(email: String, password: String) {
-                val user = FirebaseAuth.getInstance().currentUser
+                FirebaseAuth.getInstance().currentUser
                 progressBar?.visibility = View.GONE
                 Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
                 finish()
@@ -161,6 +162,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
         btnSignUp?.setOnClickListener {
+            finish()
             val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
             startActivity(intent)
         }
@@ -242,6 +244,7 @@ class LoginActivity : AppCompatActivity() {
                             .addOnCompleteListener(this) { task ->
                                 // Check condition
                                 if (task.isSuccessful) {
+                                    finish()
                                     // When task is successful redirect to profile activity
                                     startActivity(
                                         Intent(

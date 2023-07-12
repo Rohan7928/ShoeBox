@@ -88,6 +88,7 @@ class UpdateSignUpActivity : AppCompatActivity() {
         }
 
         layoutLogout?.setOnClickListener {
+            finish()
             mAuth!!.signOut()
             val intent = Intent(applicationContext, LoginActivity::class.java)
             startActivity(intent)
@@ -159,7 +160,7 @@ class UpdateSignUpActivity : AppCompatActivity() {
         val userModel = UserModel(name=name, email=email, password=password, mobile = mobile)
 
         dbCourses?.set(userModel)?.addOnSuccessListener {
-
+            finish()
             startActivity(Intent(applicationContext, LoginActivity::class.java))
         }?.addOnFailureListener { e ->
             Toast.makeText(
