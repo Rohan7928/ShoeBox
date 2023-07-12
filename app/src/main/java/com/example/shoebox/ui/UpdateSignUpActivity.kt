@@ -17,10 +17,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.shoebox.R
 import com.example.shoebox.model.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.shoebox.R
 import java.util.regex.Pattern
 
 class UpdateSignUpActivity : AppCompatActivity() {
@@ -52,6 +52,7 @@ class UpdateSignUpActivity : AppCompatActivity() {
         btn_signUp = findViewById(R.id.btn_register)
         upDateLayout = findViewById(R.id.upDate_layout)
         layoutLogout = findViewById(R.id.layout_logout)
+        //getDataFromFirebase
         dataFromFireStore
         progressbar = findViewById(R.id.progressbar)
         ivPasswordVisible = findViewById(R.id.iv_password_visible)
@@ -76,11 +77,13 @@ class UpdateSignUpActivity : AppCompatActivity() {
             if (confirmPasswordEditText?.transformationMethod == PasswordTransformationMethod.getInstance()) {
                 ivRePasswordVisible?.setImageResource(R.drawable.ic_eye)
                 //Show Password
-                confirmPasswordEditText?.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                confirmPasswordEditText?.transformationMethod =
+                    HideReturnsTransformationMethod.getInstance()
             } else {
                 ivRePasswordVisible?.setImageResource(R.drawable.ic_eye_off)
                 //Hide Password
-                confirmPasswordEditText?.transformationMethod = PasswordTransformationMethod.getInstance()
+                confirmPasswordEditText?.transformationMethod =
+                    PasswordTransformationMethod.getInstance()
             }
         }
 
@@ -97,8 +100,9 @@ class UpdateSignUpActivity : AppCompatActivity() {
             ) {
                 updateRegisteredUser()
             } else {
-                Toast.makeText(this@UpdateSignUpActivity, "Sorry, Unable to process", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(
+                    this@UpdateSignUpActivity, "Sorry, Unable to process", Toast.LENGTH_SHORT
+                ).show()
             }
 
         }
@@ -106,9 +110,10 @@ class UpdateSignUpActivity : AppCompatActivity() {
 
     private fun updateRegisteredUser() {
         progressbar?.visibility = View.VISIBLE
-        val email: String = emailTextView!!.text.toString()
-        val password: String = passwordTextView!!.text.toString()
-        val mobile: String = edtMobile!!.text.toString()
+        val email: String = emailTextView?.text.toString()
+        val password: String = passwordTextView?.text.toString()
+        val mobile: String = edtMobile?.text.toString()
+        val name: String = edtName?.text.toString()
         // Validations for input email and password
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(applicationContext, "Please enter email!!", Toast.LENGTH_SHORT).show()
@@ -124,34 +129,49 @@ class UpdateSignUpActivity : AppCompatActivity() {
         }
 
         // create new user or register new user
-        mAuth?.createUserWithEmailAndPassword(email, password)
+        mAuth?.updateCurrentUser(FirebaseAuth.getInstance().currentUser!!)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(
-                        this@UpdateSignUpActivity,
-                        "Registration successful!",
-                        Toast.LENGTH_SHORT
+                        this@UpdateSignUpActivity, "Update successful!", Toast.LENGTH_SHORT
                     ).show()
-                    // hide the progress bar
-                    progressbar!!.visibility = View.GONE
-                    // if the user created intent to login activity
+                    updateDataToFireStore(email, password, name, mobile)
+                    progressbar?.visibility = View.GONE
                 } else {
                     // Registration failed
                     Toast.makeText(
                         this@UpdateSignUpActivity,
-                        "Registration failed!!\" + \" Please try again later",
+                        "Updation failed!!\" + \" Please try again later",
                         Toast.LENGTH_SHORT
                     ).show()
-                    progressbar!!.visibility = View.GONE
+                    progressbar?.visibility = View.GONE
                 }
             }
     }
 
-    private fun validateEmail(email: EditText?): Boolean {
+    private fun updateDataToFireStore(
+        email: String, password: String, name: String, mobile: String
+    ) {
 
+        val dbCourses = db?.collection("customers")
+            ?.document(FirebaseAuth.getInstance().currentUser?.uid.toString())
+
+        val userModel = UserModel(name=name, email=email, password=password, mobile = mobile)
+
+        dbCourses?.set(userModel)?.addOnSuccessListener {
+
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+        }?.addOnFailureListener { e ->
+            Toast.makeText(
+                applicationContext, "Fail to add course \n$e", Toast.LENGTH_SHORT
+            ).show()
+        }
+
+    }
+
+    private fun validateEmail(email: EditText?): Boolean {
         // Extract input from EditText
         val emailInput = email!!.text.toString().trim { it <= ' ' }
-
         // if the email input field is empty
         return if (emailInput.isEmpty()) {
             email.error = "Field can not be empty"
@@ -182,46 +202,32 @@ class UpdateSignUpActivity : AppCompatActivity() {
     }
 
     private fun matchPassword(
-        passwordTextView: EditText?,
-        confirmPasswordEditText: EditText?
+        passwordTextView: EditText?, confirmPasswordEditText: EditText?
     ): Boolean {
         val password = passwordTextView!!.text.toString().trim { it <= ' ' }
         val confirmPassword = confirmPasswordEditText!!.text.toString().trim { it <= ' ' }
         return password == confirmPassword
-    }//progressBar.setVisibility(View.GONE);
+    }
 
-    //for (DocumentSnapshot d : list) {
-    // Add all to your list
-    //}
-    // adding our data to our courses object class.
     private val dataFromFireStore: Unit
         get() {
             if (isNetworkAvailable) {
-                val email = FirebaseAuth.getInstance().currentUser!!.email
-                val dbCourses =
-                    db!!.collection("customers").document(FirebaseAuth.getInstance().uid!!)
-                        .collection(
-                            email!!
-                        )
+                FirebaseAuth.getInstance().currentUser!!.email
+                val dbCourses = db?.collection("customers")
+                    ?.document(FirebaseAuth.getInstance().currentUser?.uid.toString())
+                dbCourses?.get()?.addOnSuccessListener {
 
-                // adding our data to our courses object class.
-                dbCourses.get().addOnSuccessListener { queryDocumentSnapshots ->
-                    if (!queryDocumentSnapshots?.isEmpty!!) {
-                        //progressBar.setVisibility(View.GONE);
-                        //for (DocumentSnapshot d : list) {
-                        val types = queryDocumentSnapshots?.toObjects(
-                            UserModel::class.java
-                        )
-                        updateView(types)
-                        // Add all to your list
-                        Log.d("FireBaseFireStore", "onSuccess: " + types?.get(0)?.name)
-                        //}
-                    }
-                }.addOnFailureListener { e ->
+                    val email: String = it.data?.get("email").toString()
+                    val name: String = it.data?.get("name").toString()
+                    val mobile: String = it.data?.get("mobile").toString()
+                    val password: String = it.data?.get("password").toString()
+                    val userModel =
+                        UserModel(name = name, email = email, password = password, mobile = mobile)
+                    updateView(userModel)
+                    Log.d("FireBaseFireStore", "onSuccess: " + userModel?.name)
+                }?.addOnFailureListener { e ->
                     Toast.makeText(
-                        applicationContext,
-                        "Fail to add course \n$e",
-                        Toast.LENGTH_SHORT
+                        applicationContext, "Fail to add course \n$e", Toast.LENGTH_SHORT
                     ).show()
                 }
             } else {
@@ -229,13 +235,13 @@ class UpdateSignUpActivity : AppCompatActivity() {
             }
         }
 
-    private fun updateView(types: List<UserModel>?) {
-        if (types != null && !types.isEmpty()) {
-            emailTextView!!.setText(types[0].email)
-            edtName!!.setText(types[0].name)
-            edtMobile!!.setText(types[0].mobile)
-            passwordTextView!!.setText(types[0].password)
-            confirmPasswordEditText!!.setText(types[0].password)
+    private fun updateView(userModel: UserModel?) {
+        if (userModel != null) {
+            emailTextView?.setText(userModel.email)
+            edtName?.setText(userModel.name)
+            edtMobile?.setText(userModel.mobile)
+            passwordTextView?.setText(userModel.password)
+            confirmPasswordEditText?.setText(userModel.password)
         }
     }
 

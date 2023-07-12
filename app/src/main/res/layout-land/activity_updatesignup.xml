@@ -118,6 +118,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/segoeui"
                     android:hint="@string/enter_email"
+                    android:focusable="false"
+                    android:clickable="false"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textSize="14sp" />

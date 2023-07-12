@@ -136,11 +136,34 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/enter_email_id"
                         android:paddingStart="15dp"
+                        android:focusable="false"
+                        android:clickable="false"
                         android:fontFamily="@font/segoeui"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         app:layout_constraintTop_toBottomOf="@id/email" />
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/mobile"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/segoeui"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/et_email" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/enter_mobile"
+                        android:paddingStart="15dp"
+                        android:fontFamily="@font/segoeui"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@id/mobile" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/address"
@@ -151,7 +174,7 @@
                         android:textSize="16sp"
                         android:fontFamily="@font/segoeui"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/et_email" />
+                        app:layout_constraintTop_toBottomOf="@id/et_mobile" />
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/et_address"

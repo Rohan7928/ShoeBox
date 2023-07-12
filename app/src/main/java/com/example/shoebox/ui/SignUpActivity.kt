@@ -143,22 +143,16 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun addDataToFireStore(email: String, password: String, name: String, mobile: String) {
-        val dbCourses = db!!.collection("customers").document(FirebaseAuth.getInstance().uid!!)
-            .collection(email)
-
+        val dbCourses = db?.collection("customers")
+            ?.document(FirebaseAuth.getInstance().currentUser?.uid.toString())
         // adding our data to our courses object class.
-        val userModel = UserModel(name, email, password, mobile)
+        val userModel = UserModel(name=name, email=email, password=password, mobile = mobile)
 
-        // below method is use to add data to Firebase Firestore.
-        dbCourses.add(userModel).addOnSuccessListener { // after the data addition is successful
-            // we are displaying a success toast message.
+        dbCourses?.set(userModel)?.addOnSuccessListener {
             startActivity(Intent(applicationContext, LoginActivity::class.java))
+        }?.addOnFailureListener { e ->
+            Toast.makeText(applicationContext, "Fail to add course \n$e", Toast.LENGTH_SHORT).show()
         }
-            .addOnFailureListener { e -> // this method is called when the data addition process is failed.
-                // displaying a toast message when data addition is failed.
-                Toast.makeText(applicationContext, "Fail to add course \n$e", Toast.LENGTH_SHORT)
-                    .show()
-            }
     }
 
     private fun validateEmail(email: EditText?): Boolean {

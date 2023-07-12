@@ -111,8 +111,8 @@ class LoginActivity : AppCompatActivity() {
                             finish()
                             startActivity(Intent(this@LoginActivity, AdminDashBoard::class.java))
                         } else {
-                            mAuth!!.signInWithEmailAndPassword(email, password)
-                                .addOnCompleteListener(
+                            mAuth?.signInWithEmailAndPassword(email, password)
+                                ?.addOnCompleteListener(
                                     OnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             checkIfEmailVerified(email, password)
@@ -124,7 +124,7 @@ class LoginActivity : AppCompatActivity() {
                                             ).show()
                                             progressBar?.visibility = View.GONE
                                         }
-                                    }).addOnFailureListener { e ->
+                                    })?.addOnFailureListener { e ->
                                     Toast.makeText(
                                         this@LoginActivity,
                                         "" + e.message,
