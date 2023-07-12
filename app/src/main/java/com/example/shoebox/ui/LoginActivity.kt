@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         ivPasswordVisible?.setOnClickListener { view: View? ->
-            if ((edtPassword?.getTransformationMethod() ==
+            if ((edtPassword?.transformationMethod ==
                         PasswordTransformationMethod.getInstance()
                         )
             ) {
@@ -160,10 +160,10 @@ class LoginActivity : AppCompatActivity() {
                 }*/
             }
         })
-        btnSignUp?.setOnClickListener(View.OnClickListener { view: View? ->
-            val intent: Intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+        btnSignUp?.setOnClickListener {
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
             startActivity(intent)
-        })
+        }
     }
 
     private val isNetworkAvailable: Boolean
@@ -176,31 +176,31 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validateEmail(email: EditText?): Boolean {
         // Extract input from EditText
-        val emailInput = email!!.text.toString().trim { it <= ' ' }
+        val emailInput = email?.text.toString().trim { it <= ' ' }
         // if the email input field is empty
-        if (emailInput.isEmpty()) {
-            email.error = "Field can not be empty"
-            return false
+        return if (emailInput.isEmpty()) {
+            email?.error = "Field can not be empty"
+            false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            email.error = "Please enter a valid email address"
-            return false
+            email?.error = "Please enter a valid email address"
+            false
         } else {
-            email.error = null
-            return true
+            email?.error = null
+            true
         }
     }
 
     private fun validatePassword(password: EditText?): Boolean {
-        val passwordInput = password!!.text.toString().trim { it <= ' ' }
-        if (passwordInput.isEmpty()) {
-            password.error = "Field can not be empty"
-            return false
+        val passwordInput = password?.text.toString().trim { it <= ' ' }
+        return if (passwordInput.isEmpty()) {
+            password?.error = "Field can not be empty"
+            false
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            password.error = "Password is too weak"
-            return false
+            password?.error = "Password is too weak"
+            false
         } else {
-            password.error = null
-            return true
+            password?.error = null
+            true
         }
     }
 

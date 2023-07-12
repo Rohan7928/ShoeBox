@@ -14,13 +14,10 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.shoebox.R
 import com.example.shoebox.model.UserModel
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.shoebox.R
 import java.util.regex.Pattern
 
 class SignUpActivity : AppCompatActivity() {
@@ -29,7 +26,7 @@ class SignUpActivity : AppCompatActivity() {
     var confirmPasswordEditText: EditText? = null
     var etNameTextView: EditText? = null
     var etMobile: EditText? = null
-    var btn_signUp: Button? = null
+    var btnSignUp: Button? = null
     var progressbar: ProgressBar? = null
     private var mAuth: FirebaseAuth? = null
     private var db: FirebaseFirestore? = null
@@ -47,7 +44,7 @@ class SignUpActivity : AppCompatActivity() {
         etMobile = findViewById(R.id.et_mobile)
         passwordTextView = findViewById(R.id.et_password)
         confirmPasswordEditText = findViewById(R.id.et_repassword)
-        btn_signUp = findViewById(R.id.btn_register)
+        btnSignUp = findViewById(R.id.btn_register)
         signUpLayout = findViewById(R.id.signUp_layout)
         ivPasswordVisible = findViewById(R.id.iv_password_visible)
         imgBack = findViewById(R.id.back_signUp)
@@ -73,20 +70,23 @@ class SignUpActivity : AppCompatActivity() {
             if (confirmPasswordEditText?.transformationMethod == PasswordTransformationMethod.getInstance()) {
                 ivRePasswordVisible?.setImageResource(R.drawable.ic_eye)
                 //Show Password
-                confirmPasswordEditText?.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                confirmPasswordEditText?.transformationMethod =
+                    HideReturnsTransformationMethod.getInstance()
             } else {
                 ivRePasswordVisible?.setImageResource(R.drawable.ic_eye_off)
                 //Hide Password
-                confirmPasswordEditText?.transformationMethod = PasswordTransformationMethod.getInstance()
+                confirmPasswordEditText?.transformationMethod =
+                    PasswordTransformationMethod.getInstance()
             }
         }
         // Set on Click Listener on Registration button
-        btn_signUp?.setOnClickListener {
+        btnSignUp?.setOnClickListener {
             if (validateEmail(emailTextView) && validatePassword(passwordTextView) && matchPassword(
-                    passwordTextView,
-                    confirmPasswordEditText
+                    passwordTextView, confirmPasswordEditText
                 )
-            ) registerNewUser() else {
+            ) {
+                registerNewUser()
+            } else {
                 Toast.makeText(this@SignUpActivity, "Sorry, Unable to process", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -94,8 +94,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun matchPassword(
-        passwordTextView: EditText?,
-        confirmPasswordEditText: EditText?
+        passwordTextView: EditText?, confirmPasswordEditText: EditText?
     ): Boolean {
         val password = passwordTextView!!.text.toString().trim { it <= ' ' }
         val confirmPassword = confirmPasswordEditText!!.text.toString().trim { it <= ' ' }
@@ -104,14 +103,10 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun registerNewUser() {
         progressbar!!.visibility = View.VISIBLE
-        val email: String
-        val password: String
-        val name: String
-        val mobile: String
-        email = emailTextView!!.text.toString()
-        password = passwordTextView!!.text.toString()
-        name = etNameTextView!!.text.toString()
-        mobile = etMobile!!.text.toString()
+        val email: String = emailTextView!!.text.toString()
+        val password: String = passwordTextView!!.text.toString()
+        val name: String = etNameTextView!!.text.toString()
+        val mobile: String = etMobile!!.text.toString()
         // Validations for input email and password
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please enter email!!", Toast.LENGTH_SHORT).show()
@@ -121,31 +116,30 @@ class SignUpActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter password!!", Toast.LENGTH_SHORT).show()
             return
         }
+        if (mobile.length < 10) {
+            Toast.makeText(this, "Please valid mobile number!!", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         // create new user or register new user
-        mAuth!!.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(object : OnCompleteListener<AuthResult?> {
-                override fun onComplete(task: Task<AuthResult?>) {
-                    if (task.isSuccessful) {
-                        addDataToFireStore(email, password, name, mobile)
-                        Toast.makeText(
-                            this@SignUpActivity,
-                            "Registration successful!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        progressbar!!.visibility = View.GONE
-                        // if the user created intent to login activity
-                    } else {
-                        // Registration failed
-                        Toast.makeText(
-                            this@SignUpActivity,
-                            "Registration failed!!\" + \" Please try again later",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        progressbar!!.visibility = View.GONE
-                    }
-                }
-            })
+        mAuth?.createUserWithEmailAndPassword(email, password)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                addDataToFireStore(email, password, name, mobile)
+                Toast.makeText(
+                    this@SignUpActivity, "Registration successful!", Toast.LENGTH_SHORT
+                ).show()
+                progressbar!!.visibility = View.GONE
+                // if the user created intent to login activity
+            } else {
+                // Registration failed
+                Toast.makeText(
+                    this@SignUpActivity,
+                    "Registration failed!!\" + \" Please try again later",
+                    Toast.LENGTH_SHORT
+                ).show()
+                progressbar!!.visibility = View.GONE
+            }
+        }
     }
 
     private fun addDataToFireStore(email: String, password: String, name: String, mobile: String) {
@@ -156,11 +150,10 @@ class SignUpActivity : AppCompatActivity() {
         val userModel = UserModel(name, email, password, mobile)
 
         // below method is use to add data to Firebase Firestore.
-        dbCourses.add(userModel)
-            .addOnSuccessListener { // after the data addition is successful
-                // we are displaying a success toast message.
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
-            }
+        dbCourses.add(userModel).addOnSuccessListener { // after the data addition is successful
+            // we are displaying a success toast message.
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+        }
             .addOnFailureListener { e -> // this method is called when the data addition process is failed.
                 // displaying a toast message when data addition is failed.
                 Toast.makeText(applicationContext, "Fail to add course \n$e", Toast.LENGTH_SHORT)
