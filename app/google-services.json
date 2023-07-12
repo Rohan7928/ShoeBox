@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "833868470311",
+    "firebase_url": "https://shoefy-2c8ce-default-rtdb.firebaseio.com",
+    "project_id": "shoefy-2c8ce",
+    "storage_bucket": "shoefy-2c8ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833868470311:android:0443fc704f6b7731205602",
+        "android_client_info": {
+          "package_name": "com.example.shoefy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833868470311-3aao9rernrg8pd4rvg3u4gkrk7thjjfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv1oNk_J6mAsmJNh-SHG5WeDdceUZL-kQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833868470311-3aao9rernrg8pd4rvg3u4gkrk7thjjfd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833868470311:android:197dc4a152026cd1205602",
+        "android_client_info": {
+          "package_name": "com.shoebox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833868470311-3aao9rernrg8pd4rvg3u4gkrk7thjjfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv1oNk_J6mAsmJNh-SHG5WeDdceUZL-kQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833868470311-3aao9rernrg8pd4rvg3u4gkrk7thjjfd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
