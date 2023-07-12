@@ -89,12 +89,26 @@ class UpdateSignUpActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, LoginActivity::class.java)
             startActivity(intent)
         }
+
+        btn_signUp?.setOnClickListener {
+            if (validateEmail(emailTextView) && validatePassword(passwordTextView) && matchPassword(
+                    passwordTextView, confirmPasswordEditText
+                )
+            ) {
+                updateRegisteredUser()
+            } else {
+                Toast.makeText(this@UpdateSignUpActivity, "Sorry, Unable to process", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        }
     }
 
     private fun updateRegisteredUser() {
         progressbar?.visibility = View.VISIBLE
         val email: String = emailTextView!!.text.toString()
         val password: String = passwordTextView!!.text.toString()
+        val mobile: String = edtMobile!!.text.toString()
         // Validations for input email and password
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(applicationContext, "Please enter email!!", Toast.LENGTH_SHORT).show()
@@ -102,6 +116,10 @@ class UpdateSignUpActivity : AppCompatActivity() {
         }
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(applicationContext, "Please enter password!!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (mobile.length < 9) {
+            Toast.makeText(this, "Please valid mobile number!!", Toast.LENGTH_SHORT).show()
             return
         }
 

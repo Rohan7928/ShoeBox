@@ -116,7 +116,7 @@ class SignUpActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter password!!", Toast.LENGTH_SHORT).show()
             return
         }
-        if (mobile.length < 10) {
+        if (mobile.length < 9) {
             Toast.makeText(this, "Please valid mobile number!!", Toast.LENGTH_SHORT).show()
             return
         }

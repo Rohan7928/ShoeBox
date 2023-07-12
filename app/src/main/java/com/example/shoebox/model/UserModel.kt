@@ -1,19 +1,12 @@
 package com.example.shoebox.model
 
-class UserModel {
-    constructor(name: String?, email: String?, password: String?, mobile: String?) {
-        this.name = name
-        this.password = password
-        this.email = email
-        this.mobile = mobile
-    }
-
+data class UserModel (
     @JvmField
-    var name: String? = null
+    var name: String? = null,
     @JvmField
-    var email: String? = null
+    var email: String? = null,
     @JvmField
-    var mobile: String? = null
+    var mobile: String? = null,
     @JvmField
-    var password: String? = null
-}
+    var password: String? = null,
+)
