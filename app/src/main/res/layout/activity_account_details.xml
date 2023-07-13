@@ -162,6 +162,7 @@
                         android:paddingStart="15dp"
                         android:fontFamily="@font/segoeui"
                         android:textColor="@color/black"
+                        android:inputType="number"
                         android:textSize="14sp"
                         app:layout_constraintTop_toBottomOf="@id/mobile" />
 
@@ -203,10 +204,11 @@
                             android:layout_marginBottom="-0.25dp"
                             android:drawableEnd="@drawable/credit_card"
                             android:hint="@string/card_number"
-                            android:inputType="phone"
+                            android:inputType="number"
                             android:fontFamily="@font/segoeui"
                             android:padding="16dp"
                             android:textSize="14sp"
+                            android:maxLength="19"
                             tools:ignore="LabelFor,NegativeMargin" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -228,6 +230,7 @@
                                 android:inputType="number"
                                 android:fontFamily="@font/segoeui"
                                 android:padding="16dp"
+                                android:maxLength="3"
                                 android:textSize="14sp"
                                 tools:ignore="LabelFor,RtlHardcoded" />
                         </androidx.appcompat.widget.LinearLayoutCompat>

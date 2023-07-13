@@ -4,6 +4,8 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -16,6 +18,7 @@ import com.example.shoebox.model.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shoebox.R
+
 
 class AccountDetailsActivity : AppCompatActivity() {
     var edtName: EditText? = null
@@ -42,6 +45,7 @@ class AccountDetailsActivity : AppCompatActivity() {
         edtMobile = findViewById(R.id.et_mobile)
         etCardNumber = findViewById(R.id.cardNumberEditText)
         btnSubmit = findViewById(R.id.txt_pay)
+        cardDetailsValidation()
         //getDataFromFirebase
         dataFromFireStore
         btnSubmit?.setOnClickListener { view: View? ->
@@ -51,10 +55,34 @@ class AccountDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun cardDetailsValidation() {
+
+        etCardNumber?.addTextChangedListener(CreditCardNumberTextWatcher(etCardNumber!!))
+
+        etCardNumber?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val formattedCardNumber = StringBuilder()
+
+                if (s?.length!! > 0 && s?.length!! % 4 == 0) {
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+                //formattedCardNumber.append(trimmedCardNumber[i])
+            }
+
+        })
+    }
+
     private val dataFromFireStore: Unit
         get() {
             if (isNetworkAvailable) {
-                val email = FirebaseAuth.getInstance().currentUser!!.email
+                FirebaseAuth.getInstance().currentUser!!.email
                 val dbCourses = db?.collection("customers")
                     ?.document(FirebaseAuth.getInstance().currentUser?.uid.toString())
                 dbCourses?.get()?.addOnSuccessListener {
@@ -115,22 +143,19 @@ class AccountDetailsActivity : AppCompatActivity() {
         } else if (cvvInput.isEmpty()) {
             etCVV?.error = "Field can not be empty"
             false
-        } else if(cvvInput.length < 2)
-        {
+        } else if (cvvInput.length < 3) {
             etCVV?.error = "Please enter valid CVV"
             false
-        }
-        else if (cardInput.isEmpty()) {
+        } else if (cardInput.isEmpty()) {
             etCardNumber?.error = "Field can not be empty"
             false
-        }
-        else if (cardInput.length < 9) {
+        } else if (cardInput.length < 19) {
             etCardNumber?.error = "Please enter valid card detail"
             false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             email?.error = "Please enter a valid email address"
             false
-        } else if (edtMobileInput.isEmpty() && edtMobileInput.length < 9) {
+        } else if (edtMobileInput.isEmpty() && edtMobileInput.length < 10) {
             edtMobile?.error = "Please enter a valid mobile number"
             false
         } else {
@@ -162,4 +187,46 @@ class AccountDetailsActivity : AppCompatActivity() {
             val activeNetworkInfo = connectivityManager?.activeNetworkInfo
             return activeNetworkInfo != null && activeNetworkInfo.isConnected
         }
+
+    class CreditCardNumberTextWatcher(private val editText: EditText) : TextWatcher {
+
+        private var isFormatting: Boolean = false
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // No implementation needed
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // No implementation needed
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            if (isFormatting) {
+                return
+            }
+
+            isFormatting = true
+
+            val formattedText = formatCreditCardNumber(s.toString())
+
+            editText.setText(formattedText)
+            editText.setSelection(formattedText.length)
+
+            isFormatting = false
+        }
+
+        private fun formatCreditCardNumber(cardNumber: String): String {
+            val trimmedCardNumber = cardNumber.replace(" ", "")
+
+            val formattedCardNumber = StringBuilder()
+            for (i in trimmedCardNumber.indices) {
+                if (i > 0 && i % 4 == 0) {
+                    formattedCardNumber.append(" ")
+                }
+                formattedCardNumber.append(trimmedCardNumber[i])
+            }
+
+            return formattedCardNumber.toString()
+        }
+    }
 }
