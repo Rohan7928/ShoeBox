@@ -187,7 +187,7 @@
                         android:layout_height="2dp"
                         android:layout_marginTop="12dp"
                         android:background="@color/text_gray"
-                        app:layout_constraintTop_toBottomOf="@id/txt_price" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txt_stock"
@@ -243,16 +243,6 @@
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/card_buy" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerListLikes"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
-                        android:padding="5dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txt_you_like" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

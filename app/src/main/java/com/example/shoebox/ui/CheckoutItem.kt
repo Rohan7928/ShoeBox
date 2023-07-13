@@ -29,8 +29,6 @@ class CheckoutItem : AppCompatActivity() {
     var shoeId = 0
     lateinit var imgShoe: AppCompatImageView
     var imgBack: AppCompatImageView? = null
-    lateinit var itemsListAdapter: ItemsListAdapter
-    var recyclerListLikes: RecyclerView? = null
     var layoutCheckOut: ConstraintLayout? = null
     private var mAuth: FirebaseAuth? = null
     private var db: FirebaseFirestore? = null
@@ -46,7 +44,6 @@ class CheckoutItem : AppCompatActivity() {
         shoeDesc = findViewById(R.id.txt_shoeDesc)
         imgShoe = findViewById(R.id.img_shoe)
         imgBack = findViewById(R.id.back)
-        recyclerListLikes = findViewById(R.id.recyclerListLikes)
         shoeId = intent.getIntExtra("shoeId", 0)
         shoeNametxt = intent.getStringExtra("itemName")
         shoePricetxt = intent.getStringExtra("itemPrice")

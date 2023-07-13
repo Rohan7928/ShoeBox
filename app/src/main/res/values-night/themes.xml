@@ -5,16 +5,16 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+         Secondary brand color.
         <item name="colorSecondary">@color/primaryColor</item>
         <item name="colorSecondaryVariant">@color/primaryDarkColor</item>
         <item name="colorOnSecondary">@color/white</item>
-        <!-- Status bar color. -->
+         Status bar color.
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorSecondary">@android:color/darker_gray</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:textColorLink">@color/text_gray</item>
-        <!-- Customize your theme here. -->
+         Customize your theme here.
     </style>
 
     <style name="animation" parent="Theme.AppCompat">
