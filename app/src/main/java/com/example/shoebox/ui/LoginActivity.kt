@@ -116,7 +116,7 @@ class LoginActivity : AppCompatActivity() {
                                 ?.addOnCompleteListener(
                                     OnCompleteListener { task ->
                                         if (task.isSuccessful) {
-                                            checkIfEmailVerified(email, password)
+                                            checkIfEmailVerified()
                                         } else {
                                             Toast.makeText(
                                                 this@LoginActivity,
@@ -143,22 +143,12 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-            private fun checkIfEmailVerified(email: String, password: String) {
+            private fun checkIfEmailVerified() {
                 FirebaseAuth.getInstance().currentUser
                 progressBar?.visibility = View.GONE
                 Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
                 finish()
                 startActivity(Intent(this@LoginActivity, DashBoardActivity::class.java))
-                /*  if (user != null) {
-                    if (user.isEmailVerified()) {
-
-                    } else {
-                        progressBar.setVisibility(View.GONE);
-                        user.sendEmailVerification();
-                        Toast.makeText(LoginActivity.this, "User Not Verified!", Toast.LENGTH_SHORT).show();
-                        //FirebaseAuth.getInstance().signOut();
-                    }
-                }*/
             }
         })
         btnSignUp?.setOnClickListener {

@@ -115,8 +115,17 @@ class AccountDetailsActivity : AppCompatActivity() {
         } else if (cvvInput.isEmpty()) {
             etCVV?.error = "Field can not be empty"
             false
-        } else if (cardInput.isEmpty()) {
+        } else if(cvvInput.length < 2)
+        {
+            etCVV?.error = "Please enter valid CVV"
+            false
+        }
+        else if (cardInput.isEmpty()) {
             etCardNumber?.error = "Field can not be empty"
+            false
+        }
+        else if (cardInput.length < 9) {
+            etCardNumber?.error = "Please enter valid card detail"
             false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             email?.error = "Please enter a valid email address"

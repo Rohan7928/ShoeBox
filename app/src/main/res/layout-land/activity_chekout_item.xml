@@ -39,6 +39,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/back"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/shoemain"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.15" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

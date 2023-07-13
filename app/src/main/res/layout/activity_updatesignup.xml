@@ -79,6 +79,18 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/black"
+        android:src="@drawable/shoemain"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintWidth_percent="0.15" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputName"
         android:layout_width="0dp"

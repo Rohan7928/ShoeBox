@@ -57,9 +57,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:tint="@color/primaryDarkColor"
-                android:src="@drawable/arrow_back"
                 android:layout_marginTop="20dp"
+                android:src="@drawable/arrow_back"
+                android:tint="@color/primaryDarkColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.1" />
@@ -78,6 +78,19 @@
                 app:layout_constraintBottom_toBottomOf="@id/back"
                 app:layout_constraintStart_toEndOf="@id/back"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/logo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:backgroundTint="@color/black"
+                android:src="@drawable/shoemain"
+                android:visibility="visible"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.1"
+                app:layout_constraintTop_toBottomOf="@id/layout_logout"
+                app:layout_constraintWidth_percent="0.15" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -116,10 +129,10 @@
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:fontFamily="@font/segoeui"
                     android:hint="@string/enter_email"
-                    android:focusable="false"
-                    android:clickable="false"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textSize="14sp" />
@@ -239,7 +252,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.13"
                 app:layout_constraintTop_toBottomOf="@id/textReInputPassword"
-                app:layout_constraintWidth_percent="0.4" />
+                app:layout_constraintWidth_percent="0.2" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

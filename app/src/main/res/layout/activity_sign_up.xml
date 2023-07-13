@@ -211,9 +211,9 @@
                 android:layout_height="0dp"
                 android:src="@drawable/shoemain"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.15"
+                app:layout_constraintHeight_percent="0.13"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.25" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
